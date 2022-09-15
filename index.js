@@ -1,10 +1,11 @@
 const express = require ('express');
 const app = express();
 const fs = require ('fs');
+const dotenv = require('dotenv/config');
 const {request} = require('gaxios');
 const {google} = require('googleapis');
 const {googleAuth, GoogleAuth} = require('google-auth-library');
-const PORT = 3001;
+//const PORT = 3001;
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
@@ -49,7 +50,7 @@ async function sheetsAutomate(){
    try{
      await sheets.spreadsheets.values.append({
         auth,
-        spreadsheetId: '1YkZta1-y71CcxrgOqXqUtt6n7Vqu3eSn2VGjZxjtg6s',
+        spreadsheetId: process.env.ID,
         range: 'Sheet1!A:R',
         valueInputOption: 'USER_ENTERED',
         resource: rowsToBeAdded,
@@ -71,6 +72,6 @@ res.status(201).json({
 });
 });
 
-app.listen(PORT,()=>{
-    console.log(`Listening at port ${PORT}`);
+app.listen(process.env.PORT,()=>{
+    console.log(`Listening at port ${process.env.PORT}`);
 })
